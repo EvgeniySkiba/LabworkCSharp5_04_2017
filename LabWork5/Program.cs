@@ -8,32 +8,99 @@ namespace LabWork5
 {
     class Program
     {
-        delegate void GetMessage(); // 1. Объявляем делегат
- 
-        static void Main(string[] args)
-        {
-            GetMessage del; // 2. Создаем переменную делегата
+        // использхуем только здесь 
+        private static House[] houseArray = null;
 
-            GetMessage del; // 2. Создаем переменную делегата
-            if (DateTime.Now.Hour < 12)
+        // делегат
+        private delegate int PrintMenuDelegate();
+
+        /// <summary>
+        ///  выбор пункта меню
+        /// </summary>
+        /// <returns></returns>
+        static int ChoiseMenu()
+        {
+            int chose = -1;
+
+            do
             {
-                del = GoodMorning; // 3. Присваиваем этой переменной адрес метода
-            }
-            else
+                PrintMenu();
+                chose = Convert.ToInt32(Console.ReadLine());
+
+            } while (chose < 0 || chose > 2);
+
+            return chose;
+
+        }
+
+
+
+        static void PrintMenu()
+        {
+            Console.WriteLine("Plese choise action: ");
+
+            Console.WriteLine("1. Read ");
+            Console.WriteLine("2. Find");
+            Console.WriteLine("0. Exit ");
+        }
+
+
+        public static int Main(string[] args)
+        {
+            PrintMenuDelegate del = new PrintMenuDelegate(ChoiseMenu);
+
+            int choise = del.Invoke();
+
+            do
             {
-                del = GoodEvening;
-            }
-            del.Invoke(); // 4. Вызываем метод
+                // согласно заданию все действия прроихзводятся в этом классе 
+                House house = new House();
+                switch (choise)
+                {
+                    case 1:
+                        Console.WriteLine("Enter the array size : ");
+                        int size = Convert.ToInt32(Console.ReadLine());
+
+                        // если некорректное значение при вводе -  миниму м один элемент 
+                        if (size < 0)
+                            size = 1;
+
+                        // согласно задания в качестве параметра будет передаваться массив типа house 
+                        houseArray = new House[size];
+
+                        // массив есть можем вызвать ввод 
+                        house.Read(houseArray, size);
+                        choise = del.Invoke();
+                        break;
+
+                    case 2:
+                        {
+                            // если массива нету - показать главное меню 
+                            if (houseArray == null || houseArray.Length < 1)
+                            {
+                                choise = del.Invoke();
+                            }
+
+                            // иначе ищем 
+
+                            Console.WriteLine("Pleace enter vladelec : ");
+                            String vladelec = Console.ReadLine();
+                            house.Poisk(houseArray, houseArray.Length, vladelec);
+                            choise = del.Invoke();
+                            break;
+                        }
+
+                    default:
+                        break;
+                }
+            } while (choise != 0);
+
+            Console.WriteLine("Press any key to continue ....");
             Console.ReadLine();
+
+            return 0;
         }
 
-        private static void GoodMorning()
-        {
-            Console.WriteLine("Good Morning");
-        }
-        private static void GoodEvening()
-        {
-            Console.WriteLine("Good Evening");
-        }
+
     }
 }

@@ -6,24 +6,28 @@ using System.Threading.Tasks;
 
 namespace LabWork5
 {
-    class Abstr
+    /// <summary>
+    /// 
+    /// </summary>
+    public class Abstr
     {
-        
-        public void Poisk(House[] houseAray, int num,String fName)
-        {
-            int count = 0;
-            for(int i = 0; i< num;i++)
-            {
+        public void Poisk(House[] houseAray, int num, String fName)
+        {            
+            bool wasFound = false;
 
+            for (int i = 0; i < num; i++)
+            {
                 // поиск по фамилии 
                 if (houseAray[i].Vladelec == fName)
                 {
-                    Console.WriteLine("{0} : {1}", i + 1, fName);
-                    count++;
+                    Console.WriteLine("Found:  {0} : {1}", i + 1, fName);                  
+                    wasFound = true;
                 }
             }
 
-            Console.WriteLine("Not found");
+            // если не найдено 
+            if (!wasFound)
+                Console.WriteLine("Vladeletc didn' t found");
         }
     }
 }

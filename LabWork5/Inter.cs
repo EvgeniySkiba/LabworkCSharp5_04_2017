@@ -8,6 +8,6 @@ namespace LabWork5
 {
     public interface Inter
     {
-        public void Read(House[] houseAray, int num);
+        void Read(House[] houseAray, int num);
     }
 }

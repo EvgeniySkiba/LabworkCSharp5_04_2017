@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace LabWork5
 {
-    class Base:Abstr
+    public class Base : Abstr
     {
+        /// <summary>
+        /// фамилия владельца дома
+        /// </summary>
         private String vladelec;
 
         public String Vladelec
@@ -15,6 +18,5 @@ namespace LabWork5
             get { return vladelec; }
             set { vladelec = value; }
         }
-
     }
 }
